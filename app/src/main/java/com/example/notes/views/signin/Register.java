@@ -3,8 +3,10 @@ package com.example.notes.views.signin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -34,21 +36,19 @@ public class Register extends AppCompatActivity {
     private TextInputLayout mInput_emailWrapper, mInput_passWrapper;
     private TextInputEditText mInput_email, mInput_pass;
     private MaterialButton mRegisterButton;
-    private ProgressBar mProgressBar;
-    //use CountDown to move another layout
-    private CountDownTimer countDownTimer = null;
-
     private VerifyAccount mVerifyAccount = new VerifyAccount();
 
-
+    private Handler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mHandler = new Handler();
         initUI();
 
         registerAction(mRegisterButton);
+
     }
 
     private void registerAction(MaterialButton mRegisterButton) {
@@ -71,7 +71,7 @@ public class Register extends AppCompatActivity {
                     mInput_passWrapper.requestFocus();
                     return;
                 }
-                Log.d(TAG, "onClick: Email" + email.toString());
+                Log.d(TAG, "onClick: Email" + email);
 
                 createUserWithFirebase(email, pass);
 
@@ -80,6 +80,7 @@ public class Register extends AppCompatActivity {
         });
 
     }
+
 
     private void createUserWithFirebase(String email, String pass) {
         mFirebaseAuth.createUserWithEmailAndPassword(email, pass)
@@ -113,7 +114,8 @@ public class Register extends AppCompatActivity {
                             }
                         } else if (task.isSuccessful()) {
                             showToast("Successfully, Please relogin");
-
+                            //move LoginActivity
+                            moveActivity();
                         }
                     }
                 })
@@ -125,6 +127,20 @@ public class Register extends AppCompatActivity {
                 });
     }
 
+    private void moveActivity() {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doStuff();
+            }
+        }, 3000);
+    }
+
+    private void doStuff() {
+        Intent intent = new Intent(Register.this, LogIn.class);
+        startActivity(intent);
+        finish();
+    }
 
     private void initUI() {
         mInput_emailWrapper = findViewById(R.id.inputText_register_emailWrapper);
@@ -132,7 +148,6 @@ public class Register extends AppCompatActivity {
         mInput_email = findViewById(R.id.inputText_register_emailInput);
         mInput_pass = findViewById(R.id.inputText_register_passInput);
         mRegisterButton = findViewById(R.id.button_register_register);
-        mProgressBar = findViewById(R.id.progess_bar);
     }
 
     public void setmVerifyAccount(VerifyAccount mVerifyAccount) {
