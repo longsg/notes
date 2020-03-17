@@ -13,9 +13,11 @@ import com.example.notes.R;
 import com.example.notes.model.Bookmark;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseError;
 
 import java.util.List;
 
+//required object and custom ViewHolder in agru
 public class BookMarkFirebaseAdapter extends FirebaseRecyclerAdapter<Bookmark, BookMarkFirebaseAdapter.BookMarkViewHolder> {
     private List<Bookmark> bookmarkList;
 
@@ -24,15 +26,6 @@ public class BookMarkFirebaseAdapter extends FirebaseRecyclerAdapter<Bookmark, B
         this.bookmarkList = bookmarkList;
     }
 
-    /**
-     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirebaseRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-    public BookMarkFirebaseAdapter(@NonNull FirebaseRecyclerOptions<Bookmark> options) {
-        super(options);
-    }
 
     @Override
     protected void onBindViewHolder(@NonNull BookMarkViewHolder holder, int position, @NonNull Bookmark model) {
@@ -68,5 +61,14 @@ public class BookMarkFirebaseAdapter extends FirebaseRecyclerAdapter<Bookmark, B
         }
     }
 
+    @Override
+    public void onDataChanged() {
+        super.onDataChanged();
 
+    }
+
+    @Override
+    public void onError(@NonNull DatabaseError error) {
+        super.onError(error);
+    }
 }

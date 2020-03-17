@@ -52,7 +52,7 @@ public class AddNewNote extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int style = DialogFragment.STYLE_NORMAL;
-        int theme = android.R.style.Theme_Holo_Dialog;
+        int theme = android.R.style.Theme_Material_Light_Dialog;
         setStyle(style, theme);
     }
 

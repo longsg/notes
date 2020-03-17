@@ -18,38 +18,11 @@ import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class FirebaseHelper implements IFirebaseRepository {
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mDatabaseReference;
-    private List<Bookmark> bookmarkList = new ArrayList<>();
-
-    public FirebaseHelper() {
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference("notes");
-    }
-
-
-    @Override
-    public void DataIsLoader(Bookmark bookmark) {
+public class FirebaseHelper {
+    public static final class FirebaseInit {
+        public static final FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
+        public static final DatabaseReference mDatabaseReference = mFirebaseDatabase.getReference("notes");
 
     }
 
-    @Override
-    public void DataIsInserted(String title, String content) {
-        HashMap<String, String> dataMap = new HashMap<>();
-        dataMap.put("title", title);
-        dataMap.put("content", content);
-
-        mDatabaseReference.push().setValue(dataMap);
-    }
-
-    @Override
-    public void DataIsUpdated(Bookmark bookmark) {
-
-    }
-
-    @Override
-    public void DataIsDeleted(Bookmark bookmark) {
-
-    }
 }

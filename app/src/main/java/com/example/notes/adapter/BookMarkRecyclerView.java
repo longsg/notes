@@ -1,15 +1,14 @@
 package com.example.notes.adapter;
 
-import android.app.Activity;
-import android.content.Context;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notes.R;
@@ -20,7 +19,7 @@ import java.util.List;
 
 public class BookMarkRecyclerView extends RecyclerView.Adapter<BookMarkRecyclerView.BookMarkViewHolder> {
     private List<Bookmark> bookmarkList = new ArrayList<>();
-    private Context context;
+
 
     public BookMarkRecyclerView(List<Bookmark> bookmarkList) {
         this.bookmarkList = bookmarkList;
@@ -51,7 +50,7 @@ public class BookMarkRecyclerView extends RecyclerView.Adapter<BookMarkRecyclerV
     public class BookMarkViewHolder extends RecyclerView.ViewHolder {
         private Bookmark mBookmark;
         TextView mTitle, mContent;
-        Button mSpeakerButton;
+        ImageButton mSpeakerButton;
 
         public BookMarkViewHolder(@NonNull View itemView) {
             super(itemView);
