@@ -56,7 +56,7 @@ public class BookMarkRecyclerView extends RecyclerView.Adapter<BookMarkRecyclerV
             super(itemView);
             mTitle = itemView.findViewById(R.id.recycler_item_title);
             mContent = itemView.findViewById(R.id.recycler_item_content);
-            mSpeakerButton = itemView.findViewById(R.id.recycler_item_speaker);
+
         }
 
         public void bindBookMark(Bookmark bookmark) {

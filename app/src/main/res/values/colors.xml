@@ -6,4 +6,5 @@
     <color name="colorFloating">#BC6862</color>
     <color name="colorRecyclerView">#D1C1C0</color>
     <color name="recyclerItemColor">#F0CB8F</color>
+    <color name="datetimeColor">#977134</color>
 </resources>

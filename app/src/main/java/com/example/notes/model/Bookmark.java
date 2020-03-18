@@ -4,31 +4,35 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
 
 @IgnoreExtraProperties
 public class Bookmark implements Parcelable {
     private String mTitle;
     private String mContent;
-
+    private @ServerTimestamp
+    Date mDate;
     private String mBookmarkId;
     private String mUserId;
-
-    public Bookmark() {
-    }
-
-    public Bookmark(String mTitle, String mContent, String mBookmarkId, String mUserId) {
-        this.mTitle = mTitle;
-        this.mContent = mContent;
-
-        this.mBookmarkId = mBookmarkId;
-        this.mUserId = mUserId;
-    }
 
     protected Bookmark(Parcel in) {
         mTitle = in.readString();
         mContent = in.readString();
         mBookmarkId = in.readString();
         mUserId = in.readString();
+    }
+
+    public Bookmark() {
+    }
+
+    public Bookmark(String mTitle, String mContent, Date mDate, String mBookmarkId, String mUserId) {
+        this.mTitle = mTitle;
+        this.mContent = mContent;
+        this.mDate = mDate;
+        this.mBookmarkId = mBookmarkId;
+        this.mUserId = mUserId;
     }
 
     public static final Creator<Bookmark> CREATOR = new Creator<Bookmark>() {
@@ -42,6 +46,19 @@ public class Bookmark implements Parcelable {
             return new Bookmark[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mTitle);
+        dest.writeString(mContent);
+        dest.writeString(mBookmarkId);
+        dest.writeString(mUserId);
+    }
 
     public String getmTitle() {
         return mTitle;
@@ -59,6 +76,13 @@ public class Bookmark implements Parcelable {
         this.mContent = mContent;
     }
 
+    public Date getmDate() {
+        return mDate;
+    }
+
+    public void setmDate(Date mDate) {
+        this.mDate = mDate;
+    }
 
     public String getmBookmarkId() {
         return mBookmarkId;
@@ -76,16 +100,7 @@ public class Bookmark implements Parcelable {
         this.mUserId = mUserId;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mTitle);
-        dest.writeString(mContent);
-        dest.writeString(mBookmarkId);
-        dest.writeString(mUserId);
+    public static Creator<Bookmark> getCREATOR() {
+        return CREATOR;
     }
 }

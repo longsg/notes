@@ -55,11 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private BookMarkRecyclerView mBookMarkAdapter;
     private DatabaseReference mDatabaseReference;
     private String currentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-    private FirebaseHelper firebaseHelper;
+    private Bookmark mBookmark;
 
-    public void setFirebaseHelper(FirebaseHelper firebaseHelper) {
-        this.firebaseHelper = firebaseHelper;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initBaseStuff();
         initUI();
+        mBookmark = new Bookmark();
         doFloatingButton(mFloatingButton);
         bookmarkList = new ArrayList<>();
         mRecyclerViewContainer.setLayoutManager(new LinearLayoutManager(this));
@@ -85,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 bookmarkList.clear();
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Bookmark bookmark = data.getValue(Bookmark.class);
-                    if (currentUser.equals(bookmark.getmUserId().toString()))
-                        bookmarkList.add(bookmark);
-                    Log.d(TAG, "reciveDataFirebase: " + bookmark.getmUserId());
+                    mBookmark = data.getValue(Bookmark.class);
+                    if (currentUser.equals(mBookmark.getmUserId()))
+                        bookmarkList.add(mBookmark);
+                    Log.d(TAG, "receiveDataFirebase: " + mBookmark.getmUserId());
                 }
                 mBookMarkAdapter = new BookMarkRecyclerView(bookmarkList);
                 mRecyclerViewContainer.setAdapter(mBookMarkAdapter);
@@ -128,8 +126,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser mCurrentUser = mFirebaseAuth.getCurrentUser();
-
     }
 
     @Override
