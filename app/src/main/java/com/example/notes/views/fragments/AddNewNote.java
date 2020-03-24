@@ -44,12 +44,12 @@ public class AddNewNote extends DialogFragment {
     private static final String TAG = "AddNewNote";
     private static final String REQUIRED = "Required";
     private static final int REQUEST_DATE = 0;
-
+    public static final int ID_FRAGMENT = 1;
     private TextInputLayout mInputTitleWrapper, mInputContentWrapper;
     private TextInputEditText mInputTitle, mInputContent;
     private MaterialButton mCreateDialogButton, mCancelDialogButton;
     private FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    private DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference("notes");
+    public static DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference("notes");
     private Button mDatetimeButton;
     private Bookmark bookmark;
 
@@ -131,14 +131,13 @@ public class AddNewNote extends DialogFragment {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     showToast("Saved !");
+                                    showToast(bookmark.getmBookmarkId());
                                     closeDialog();
                                 } else {
                                     Log.w(TAG, "onComplete: ", task.getException());
                                 }
                             }
                         });
-
-
             }
         });
 
@@ -189,6 +188,7 @@ public class AddNewNote extends DialogFragment {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data.getSerializableExtra(DateTimePickerFragment.EXTRA_DATE);
             // convertDateTime(date);
+            showToast(date.toString());
             bookmark.setmDate(date);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 
 import com.example.notes.R;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -35,12 +36,6 @@ public class DateTimePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-//        Date date = (Date) getArguments().getSerializable(ARG_DATE);
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(date);
-//        int year = calendar.get(Calendar.YEAR);
-//        int month = calendar.get(Calendar.MONTH);
-//        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_date_time_picker, null);
         mDatePicker = view.findViewById(R.id.date_fragment_picker);
@@ -55,7 +50,9 @@ public class DateTimePickerFragment extends DialogFragment {
                         int month = mDatePicker.getMonth();
                         int day = mDatePicker.getDayOfMonth();
                         Date date = new GregorianCalendar(year, month, day).getTime();
+
                         sendResult(Activity.RESULT_OK, date);
+                        sendResultUpdate(911, date);
                     }
                 })
                 .create();
@@ -76,7 +73,16 @@ public class DateTimePickerFragment extends DialogFragment {
             return;
         Intent intent = new Intent();
         intent.putExtra(EXTRA_DATE, date);
-        //getTargetRequestcode from AddnoewFragment
+        //getTargetRequest from AddnewFragment
         getTargetFragment().onActivityResult(getTargetRequestCode(), requestCode, intent);
     }
+
+    private void sendResultUpdate(int resquestCode, Date date) {
+        if (getTargetFragment() == null)
+            return;
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_DATE, date);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resquestCode, intent);
+    }
+
 }

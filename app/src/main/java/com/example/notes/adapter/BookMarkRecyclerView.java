@@ -20,6 +20,7 @@ import java.util.List;
 public class BookMarkRecyclerView extends RecyclerView.Adapter<BookMarkRecyclerView.BookMarkViewHolder> {
     private List<Bookmark> bookmarkList = new ArrayList<>();
 
+    private static ICustomClickListener sClickListener;
 
     public BookMarkRecyclerView(List<Bookmark> bookmarkList) {
         this.bookmarkList = bookmarkList;
@@ -47,7 +48,7 @@ public class BookMarkRecyclerView extends RecyclerView.Adapter<BookMarkRecyclerV
         return bookmarkList.size();
     }
 
-    public class BookMarkViewHolder extends RecyclerView.ViewHolder {
+    public class BookMarkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Bookmark mBookmark;
         TextView mTitle, mContent;
         ImageButton mSpeakerButton;
@@ -56,7 +57,7 @@ public class BookMarkRecyclerView extends RecyclerView.Adapter<BookMarkRecyclerV
             super(itemView);
             mTitle = itemView.findViewById(R.id.recycler_item_title);
             mContent = itemView.findViewById(R.id.recycler_item_content);
-
+            itemView.setOnClickListener(this);
         }
 
         public void bindBookMark(Bookmark bookmark) {
@@ -65,7 +66,18 @@ public class BookMarkRecyclerView extends RecyclerView.Adapter<BookMarkRecyclerV
             mContent.setText(mBookmark.getmContent());
 
         }
+
+        @Override
+        public void onClick(View v) {
+            sClickListener.customClick(getAdapterPosition(), v);
+        }
     }
 
+    public void setClickListener(ICustomClickListener clickListener) {
+        BookMarkRecyclerView.sClickListener = clickListener;
+    }
 
+    public interface ICustomClickListener {
+        void customClick(int position, View view);
+    }
 }
